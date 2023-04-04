@@ -1,4 +1,19 @@
+"use client";
+import { useRouter } from "next/navigation";
+
+import React from "react";
+
 const Header = () => {
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const redirect = useRouter();
+  const handleSearch = () => {
+    if (searchTerm === "" || searchTerm === " ") {
+      return alert("Please enter a search Term");
+    }
+    setSearchTerm("");
+    redirect.push(`/search?location=${searchTerm}`);
+  };
   return (
     <div className="bg-gradient-to-r to-[#5f6984] from-[#0f1f47] p-2">
       <div className="text-left text-lg py-3 m-auto flex justify-center">
@@ -6,8 +21,13 @@ const Header = () => {
           className="rounded  mr-3 p-2 w-[450px]"
           type="text"
           placeholder="State, city or town"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="rounded bg-red-600 px-9 py-2 text-white">
+        <button
+          onClick={handleSearch}
+          className="rounded bg-red-600 px-9 py-2 text-white"
+        >
           Let's go
         </button>
       </div>

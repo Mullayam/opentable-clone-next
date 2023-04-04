@@ -1,28 +1,52 @@
-import Link from "next/link";
+import { PrismaClient, Cuisine, Location, PRICE } from "@prisma/client";
 
-export default function RestaurantCardSearch() {
+import Link from "next/link";
+import Price from "../../components/Price";
+
+interface RestaurantCardSearchProps {
+  id: number;
+  name: string;
+  main_image: string;
+  price: PRICE;
+  slug: string;
+  cuisine: Cuisine;
+  location: Location;
+}
+export default function RestaurantCardSearch({
+  RestaurantSearchData,
+}: {
+  RestaurantSearchData: RestaurantCardSearchProps;
+}) {
   return (
-    <div className="border-b flex pb-5">
+    <div className="border-b flex ml-5 text-bold">
       <img
-        src="https://images.otstatic.com/prod1/49153814/2/medium.jpg"
-        alt=""
-        className="w-44 rounded"
+        src={RestaurantSearchData.main_image}
+        alt={RestaurantSearchData.name}
+        className="w-44 h-36 rounded"
       />
       <div className="pl-5">
-        <h2 className="text-3xl">Aiāna Restaurant Collective</h2>
+        <h2 className="text-3xl">{RestaurantSearchData.name}</h2>
         <div className="flex items-start">
           <div className="flex mb-2">*****</div>
-          <p className="ml-2 text-sm">Awesome</p>
+          <span className="ml-2 text-sm">Awesome</span>
         </div>
         <div className="mb-9">
           <div className="font-light flex text-reg">
-            <p className="mr-4">$$$</p>
-            <p className="mr-4">Mexican</p>
-            <p className="mr-4">Ottawa</p>
+            <span className="mr-4">
+              <Price price={RestaurantSearchData.price} />
+            </span>
+            <span className="mr-4 capitalize">
+              {RestaurantSearchData.cuisine.name}
+            </span>
+            <span className="mr-4 capitalize">
+              {RestaurantSearchData.location.name}
+            </span>
           </div>
         </div>
         <div className="text-red-600">
-          <Link href="">View more information</Link>
+          <Link href={`/restaurant/${RestaurantSearchData.slug}`}>
+            View more information
+          </Link>
         </div>
       </div>
     </div>
