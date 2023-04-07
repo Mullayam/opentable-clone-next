@@ -18,6 +18,7 @@ const RestaurantSearch = async (searchParams: SearchParams) => {
     slug: true,
     cuisine: true,
     location: true,
+    reviews: true,
   };
   const where: any = {};
   if (searchParams.location) {

@@ -1,6 +1,7 @@
 import React from 'react'
 import Cards from './Cards'
 import { RestaurantCardType } from "../page";
+// import { Cuisine, Location, PRICE, Review } from "@prisma/client";
 
 interface Props {
   restaurant: RestaurantCardType;

@@ -6,6 +6,7 @@ import Title from "./components/Title";
 import Ratings from "./components/Ratings";
 import ReservationCard from "./components/ReservationCard";
 import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 const primsa = new PrismaClient();
 
@@ -19,10 +20,11 @@ const GetRestaurantBySlug = async (slug: string) => {
       images: true,
       description: true,
       slug: true,
+      reviews: true,
     },
   });
   if (!restuarantData) {
-    throw new Error("Restaurant Data Cannot be Null");
+    notFound();
   }
   return restuarantData;
 };
@@ -39,10 +41,10 @@ export default async function RestaurantDetails({
       <div className="bg-white w-[70%] rounded p-3 shadow">
         <RestaurantNavbar slug={RestaurantData.slug} />
         <Title name={RestaurantData.name} />
-        <Ratings />
+        <Ratings reviews={RestaurantData.reviews} />
         <Description description={RestaurantData.description} />
         <Gallery images={RestaurantData.images} />
-        <Reviews />
+        <Reviews reviews={RestaurantData.reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
         <ReservationCard />
