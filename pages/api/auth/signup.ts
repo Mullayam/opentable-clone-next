@@ -42,7 +42,7 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
       }
 
       if (errors.length) {
-        return res.status(200).json({ errorMessage: errors[0] });
+        return res.status(200).json({ message: errors[0], success: false });
       }
     });
 
@@ -51,7 +51,9 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
     });
 
     if (userWithEmail) {
-      return res.status(404).json({ errorMessage: "Email Already Exists" });
+      return res
+        .status(404)
+        .json({ message: "Email Already Taken", success: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -74,8 +76,8 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
       .setExpirationTime("1d")
       .sign(secret);
 
-    res.status(200).json({ errorMessage: AuthToken });
+    res.status(200).json({ message: AuthToken,success:true });
   } else {
-    res.status(200).json({ error: "Get Method is not supported" });
+    res.status(404).json({ message: "Not Found", success: false });
   }
 }
