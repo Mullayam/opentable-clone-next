@@ -59,17 +59,15 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
       .setExpirationTime("1d")
       .sign(secret);
     setCookie("jwt", AuthToken, { req, res, maxAge: 60 * 60 * 24 });
-    const userData = {
-      id: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      city: user.city,
-      phone: user.phone,
-      email: user.email,
-    };
+  
     res.status(200).json({
       message: {
-        userData,
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        city: user.city,
+        phone: user.phone,
+        email: user.email,
       },
       success: true,
     });

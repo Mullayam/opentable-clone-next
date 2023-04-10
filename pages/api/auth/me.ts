@@ -33,6 +33,8 @@ export default async function Handler(
       phone: true,
     },
   });
-
-  return res.status(200).json({ user });
+if (!user) {
+  return res.status(200).json({ message: "User Not Found", success: false });
+}
+return res.status(200).json({ message: user, success: true });
 }

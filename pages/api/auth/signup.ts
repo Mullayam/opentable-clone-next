@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 import validator from "validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
+import { setCookie } from "cookies-next";
 
 export default async function name(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -52,7 +53,7 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
 
     if (userWithEmail) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: "Email Already Taken", success: false });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -75,9 +76,12 @@ export default async function name(req: NextApiRequest, res: NextApiResponse) {
       .setProtectedHeader({ alg })
       .setExpirationTime("1d")
       .sign(secret);
+    setCookie("jwt", AuthToken, { req, res, maxAge: 60 * 60 * 24 });
 
-    res.status(200).json({ message: AuthToken,success:true });
+    return res
+      .status(200)
+      .json({ message: "Account Created Successfully", success: true });
   } else {
-    res.status(404).json({ message: "Not Found", success: false });
+    return res.status(404).json({ message: "Not Found", success: false });
   }
 }

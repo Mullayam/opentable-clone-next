@@ -1,3 +1,5 @@
+"use client";
+
 import { Item } from "@prisma/client";
 
 export default function MenuCard({ item }: { item: Item }) {

@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -23,7 +24,7 @@ const style = {
 export default function AuthModal({ isSignIn }: { isSignIn: Boolean }) {
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
-  const { signin } = useAuth();
+  const { signin, signup } = useAuth();
   const { loading, data, error } = React.useContext(AuthenticationContext);
   const [inputs, setInputs] = React.useState({
     firstName: "",
@@ -50,27 +51,30 @@ export default function AuthModal({ isSignIn }: { isSignIn: Boolean }) {
     if (isSignIn) {
       if (inputs.email && inputs.password) {
         return setDisabled(false);
-      } else {
-        if (
-          inputs.firstName &&
-          inputs.lastName &&
-          inputs.city &&
-          inputs.phone &&
-          inputs.password &&
-          inputs.email
-        ) {
-          return setDisabled(false);
-        }
       }
+      setDisabled(true);
+    } else {
+      if (
+        inputs.firstName &&
+        inputs.lastName &&
+        inputs.city &&
+        inputs.phone &&
+        inputs.password &&
+        inputs.email
+      ) {
+        return setDisabled(false);
+      }
+      setDisabled(true);
     }
-    setDisabled(true);
   }, [inputs]);
   const handleClick = () => {
     if (isSignIn) {
       signin({ email: inputs.email, password: inputs.password }, handleClose);
     } else {
+      signup(inputs, handleClose);
     }
   };
+
   return (
     <div>
       <button
@@ -101,6 +105,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: Boolean }) {
                   <p className="text-small">
                     {RenderContent("Login", "Create An Account")}
                   </p>
+                  <p className="text-small">{data?.firstName} </p>
                   <div className="m-auto">
                     <div className="text-xl font-light text-center">
                       {RenderContent(
@@ -122,7 +127,9 @@ export default function AuthModal({ isSignIn }: { isSignIn: Boolean }) {
                     </div>
                   </div>
                 </div>
-                {error ? <Alert severity="error">{error}</Alert> : null}
+                {!isSignIn
+                  ? error && <Alert severity="error">{error}</Alert>
+                  : null}
               </div>
             )}
           </Box>
