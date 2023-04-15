@@ -1,5 +1,3 @@
-"use client";
-
 import RestaurantNavbar from "./components/RestaurantNavbar";
 import Reviews from "./components/Reviews";
 import Gallery from "./components/Gallery";
@@ -61,6 +59,7 @@ export default async function RestaurantDetails({
       </div>
       <div className="w-[27%] relative text-reg">
         <ReservationCard
+          slug={RestaurantData.slug}
           openTime={RestaurantData.open_time}
           closeTime={RestaurantData.close_time}
         />

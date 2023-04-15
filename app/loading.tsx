@@ -6,7 +6,7 @@ export default function loading() {
     <main>
       <Header />
       <div className="py-3 px-36 mt-10 flex felx-wrap justify-center">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => {
+        {Array(15).map((n) => {
           return (
             <div
               key={n}
