@@ -32,7 +32,7 @@ export default async function Home() {
   const restaurants = await GetRestaurants();
 
   return (
-    <main>
+    <main className="bg-gray-100 min-h-screen w-screen">
       <Header />
       <div className="py-3 px-36 mt-10 flex flex-wrap">
         {restaurants.map((restaurant) => (

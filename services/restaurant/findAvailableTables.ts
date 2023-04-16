@@ -6,10 +6,10 @@ export const FindAvailableTables = async ({
   time,
   day,
   res,
-  resaturant,
+  restaurant,
 }: {
   time: string;
-  resaturant: {
+  restaurant: {
     tables: Table[];
     open_time: string;
     close_time: string;
@@ -49,12 +49,12 @@ export const FindAvailableTables = async ({
     );
   });
 
-  if (!resaturant) {
+  if (!restaurant) {
     return res
       .status(200)
       .json({ message: "Invalid Data Provided", sucess: false });
   }
-  const tables = resaturant.tables;
+  const tables = restaurant.tables;
   const searchTimesWithTables = searchTimes.map((st) => {
     return { date: new Date(), time: st, tables };
   });
